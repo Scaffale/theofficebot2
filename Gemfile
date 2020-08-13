@@ -4,8 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0', '>= 6.0.2.2'
-# Use sqlite3 as the database for Active Record
+gem 'rails', '~> 6.0', '>= 6.0.3.2'
+
 gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
@@ -26,11 +26,11 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'autoprefixer-rails'
+# gem 'autoprefixer-rails'
 gem 'dotenv-rails'
-gem 'faker'
-gem 'slim'
-gem 'uglifier'
+# gem 'faker'
+# gem 'slim'
+# gem 'uglifier'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -38,8 +38,8 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop'
   gem 'rubocop-rails'
-  gem 'unicorn'
-  gem 'unicorn-rails'
+  # gem 'unicorn'
+  # gem 'unicorn-rails'
 end
 
 group :development do
@@ -49,8 +49,8 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do
