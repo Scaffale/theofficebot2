@@ -40,6 +40,10 @@ group :development, :test do
   gem 'rubocop-rails'
   # gem 'unicorn'
   # gem 'unicorn-rails'
+  gem 'rspec', '~> 3.9'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_bot'
+  gem 'database_cleaner'
 end
 
 group :development do
