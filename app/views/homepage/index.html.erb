@@ -1,6 +1,6 @@
 <h1>The office gif bot!</h1>
 <p>Try it out here:</p>
-<%= form_with url: query_bot_path, method: :post do |f| %>
+<%= form_with url: root_path, method: :get do |f| %>
   <%= f.text_field :query %>
   <%= f.submit "Hit me!" %>
 <% end %>
