@@ -67,3 +67,6 @@ yarn-debug.log*
 !/storage/.keep
 
 .env.development
+
+/data/*
+.DS_Store
