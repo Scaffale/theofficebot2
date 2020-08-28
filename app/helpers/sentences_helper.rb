@@ -1,3 +1,4 @@
+# Helper used to seed sentences into db
 module SentencesHelper
   def time?(line)
     !line.match(/(\d{2}:){2}\d{2},\d{3} --> (\d{2}:){2}\d{2},\d{3}/).nil?
@@ -17,7 +18,7 @@ module SentencesHelper
     times = line.split('-->')
     time_start = extract_single_time(times[0])
     time_end = extract_single_time(times[1])
-    return time_start, time_end
+    [time_start, time_end]
   end
 
   def extract_single_time(time)
@@ -28,7 +29,8 @@ module SentencesHelper
   def split_sentences(opened_file)
     sentences = []
     sentence = ''
-    time_start, time_end = 0,0
+    time_start = 0
+    time_end = 0
     opened_file.each do |line|
       next if new_line?(line)
 
@@ -39,16 +41,17 @@ module SentencesHelper
 
       if number?(line)
         next if sentence == ''
-        sentences << {sentence: sentence, time_start: time_start, time_end: time_end}
+
+        sentences << { sentence: sentence, time_start: time_start, time_end: time_end }
         sentence = ''
         next
       end
 
-      sentence += line.strip + ' '
+      sentence += "#{line.strip} "
     end
 
-    sentences << {sentence: sentence, time_start: time_start, time_end: time_end}
+    sentences << { sentence: sentence, time_start: time_start, time_end: time_end }
 
-    return sentences
+    sentences
   end
 end

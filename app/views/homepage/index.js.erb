@@ -1,0 +1,6 @@
+var result_container = document.getElementById('results');
+result_container.innerHTML = '';
+var result_container = $('#results');
+<% @results.each do |result| %>
+  result_container.append("<%= escape_javascript(render(partial: 'sentences/inline', locals: { sentence: result })) %>");
+<% end %>

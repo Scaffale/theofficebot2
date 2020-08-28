@@ -55,19 +55,19 @@ RSpec.describe SentencesHelper, type: :helper do
     end
   end
 
-  describe "sentences" do
+  describe 'sentences' do
     it 'read one sentence' do
       two_sentences = ["1\n",
-        "00:00:32,566 --> 00:00:33,534\n",
-        "All right, Jim,\n",
-        "\n",
-        "2\n",
-        "00:00:33,567 --> 00:00:36,304\n",
-        "your quarterlies\r\n",
-        "look very good.\n",
-        "\n"]
-      two_sentences_check = [{sentence: 'All right, Jim, ', time_start: 32, time_end: 33},
-                              {sentence: 'your quarterlies look very good. ', time_start: 33, time_end: 36}]
+                       "00:00:32,566 --> 00:00:33,534\n",
+                       "All right, Jim,\n",
+                       "\n",
+                       "2\n",
+                       "00:00:33,567 --> 00:00:36,304\n",
+                       "your quarterlies\r\n",
+                       "look very good.\n",
+                       "\n"]
+      two_sentences_check = [{ sentence: 'All right, Jim, ', time_start: 32, time_end: 33 },
+                             { sentence: 'your quarterlies look very good. ', time_start: 33, time_end: 36 }]
       expect(split_sentences(two_sentences)).to eq(two_sentences_check)
     end
   end

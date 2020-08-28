@@ -29,7 +29,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'autoprefixer-rails'
 gem 'dotenv-rails'
 # gem 'faker'
-# gem 'slim'
+gem 'slim'
 # gem 'uglifier'
 
 group :development, :test do
@@ -40,10 +40,10 @@ group :development, :test do
   gem 'rubocop-rails'
   # gem 'unicorn'
   # gem 'unicorn-rails'
+  gem 'database_cleaner'
+  gem 'factory_bot'
   gem 'rspec', '~> 3.9'
   gem 'rspec-rails', '~> 3.5'
-  gem 'factory_bot'
-  gem 'database_cleaner'
 end
 
 group :development do
