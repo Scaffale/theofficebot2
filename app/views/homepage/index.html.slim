@@ -5,7 +5,9 @@ p Try the bot:
   = f.submit "Hit me!", name: nil
 
 h2
-  = "RESULTS: #{@results_count}"
+  |RESULTS:
+  span#results-count
+    = @results_count
 #results
   - @results.each do |r|
     = render partial: 'sentences/inline', locals: { sentence: r }

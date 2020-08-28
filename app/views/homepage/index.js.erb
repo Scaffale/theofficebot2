@@ -4,3 +4,4 @@ var result_container = $('#results');
 <% @results.each do |result| %>
   result_container.append("<%= escape_javascript(render(partial: 'sentences/inline', locals: { sentence: result })) %>");
 <% end %>
+document.getElementById('results-count').innerHTML = "<%= @results_count %>"
