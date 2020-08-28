@@ -15,22 +15,18 @@ module SentencesHelper
   def extract_time(line)
     return unless time?(line)
 
-    times = line.split('-->')
-    time_start = extract_single_time(times[0])
-    time_end = extract_single_time(times[1])
-    [time_start, time_end]
+    line.split(' --> ').map(&:strip)
   end
 
   def extract_single_time(time)
-    times = time.split(':').map(&:to_i)
-    (times[0] * 60 + times[1]) * 60 + times[2]
+    Time.parse(time)
   end
 
   def split_sentences(opened_file)
     sentences = []
     sentence = ''
-    time_start = 0
-    time_end = 0
+    time_start = nil
+    time_end = nil
     opened_file.each do |line|
       next if new_line?(line)
 

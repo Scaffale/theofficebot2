@@ -43,17 +43,17 @@ RSpec.describe SentencesHelper, type: :helper do
     expect(number?("$123\n")).to be false
   end
 
-  describe 'times' do
-    it 'convert time' do
-      time = '00:00:32,566'
-      expect(extract_single_time(time)).to eq 32
-    end
+  # describe 'times' do
+  #   it 'convert time' do
+  #     time = '00:00:32,566'
+  #     expect(extract_single_time(time)).to eq Time.parse('00:00:32,566')
+  #   end
 
-    it 'convert complex time' do
-      time = '01:45:32,566'
-      expect(extract_single_time(time)).to eq 6332
-    end
-  end
+  #   it 'convert complex time' do
+  #     time = '01:45:32,566'
+  #     expect(extract_single_time(time)).to eq Time.parse('01:45:32,566')
+  #   end
+  # end
 
   describe 'sentences' do
     it 'read one sentence' do
@@ -66,8 +66,8 @@ RSpec.describe SentencesHelper, type: :helper do
                        "your quarterlies\r\n",
                        "look very good.\n",
                        "\n"]
-      two_sentences_check = [{ sentence: 'All right, Jim, ', time_start: 32, time_end: 33 },
-                             { sentence: 'your quarterlies look very good. ', time_start: 33, time_end: 36 }]
+      two_sentences_check = [{ sentence: 'All right, Jim, ', time_start: '00:00:32,566', time_end: '00:00:33,534' },
+                             { sentence: 'your quarterlies look very good. ', time_start: '00:00:33,567', time_end: '00:00:36,304' }]
       expect(split_sentences(two_sentences)).to eq(two_sentences_check)
     end
   end

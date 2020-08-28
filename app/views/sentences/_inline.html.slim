@@ -1,3 +1,10 @@
-<li>
-  <%= sentence.text %>
-</li>
+.result
+  .sentence
+    = sentence.text
+  .time.start
+    = sentence.start_time
+  .time.end
+    = sentence.end_time
+  .video
+    video controls=false autoplay=true muted=true loop=true
+      source src="#{sentence.build_gif}"

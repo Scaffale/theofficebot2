@@ -6,6 +6,6 @@ p Try the bot:
 
 h2
   = "RESULTS: #{@results_count}"
-ul#results
+#results
   - @results.each do |r|
     = render partial: 'sentences/inline', locals: { sentence: r }

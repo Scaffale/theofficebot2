@@ -5,8 +5,8 @@ class CreateSentences < ActiveRecord::Migration[6.0]
       t.integer :season
       t.integer :episode
       t.string :file_name
-      t.integer :end_time
-      t.integer :start_time
+      t.string :end_time
+      t.string :start_time
       t.string :text
     end
   end
