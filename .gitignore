@@ -67,3 +67,5 @@ yarn-debug.log*
 
 /data/*
 .DS_Store
+
+public/gifs/*

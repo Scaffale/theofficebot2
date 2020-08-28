@@ -3,6 +3,7 @@ class HomepageController < ApplicationController
   def index
     if params[:text]
       @results = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").limit(10)
+      @results.map(&:build_gif)
       @results_count = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").count
     else
       @results =[]
