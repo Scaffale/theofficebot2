@@ -1,3 +1,5 @@
+Rails.application.routes.default_url_options[:host] = ENV['SERVER_URL']
+
 Rails.application.routes.draw do
   root 'homepage#index'
   telegram_webhook TelegramWebhooksController
