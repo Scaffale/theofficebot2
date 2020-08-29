@@ -5,7 +5,7 @@ class HomepageController < ApplicationController
       @results = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").limit(10)
       @results_count = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").count
     else
-      @results =[]
+      @results = []
       @results_count = 0
     end
   end

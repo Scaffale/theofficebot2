@@ -10,15 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_092543) do
-
-  create_table "sentences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "season"
-    t.integer "episode"
-    t.string "file_name"
-    t.string "end_time"
-    t.string "start_time"
-    t.string "text"
+ActiveRecord::Schema.define(version: 20_200_827_092_543) do
+  create_table 'sentences', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.integer 'season'
+    t.integer 'episode'
+    t.string 'file_name'
+    t.string 'end_time'
+    t.string 'start_time'
+    t.string 'text'
   end
-
 end

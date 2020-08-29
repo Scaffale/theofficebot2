@@ -7,6 +7,8 @@ Metrics/MethodLength:
   Max: 12
   CountComments: false
   CountAsOne: ['array', 'heredoc']
+  Exclude:
+    - app/helpers/sentences_helper.rb
 
 # Configuration parameters: IgnoredMethods.
 Metrics/PerceivedComplexity:
@@ -170,3 +172,8 @@ Security/Open:
   Enabled: true
   Exclude:
     - db/seeds.rb
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - spec/helpers/sentences_helper_spec.rb

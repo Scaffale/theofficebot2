@@ -67,7 +67,8 @@ RSpec.describe SentencesHelper, type: :helper do
                        "look very good.\n",
                        "\n"]
       two_sentences_check = [{ sentence: 'All right, Jim, ', time_start: '00:00:32,566', time_end: '00:00:33,534' },
-                             { sentence: 'your quarterlies look very good. ', time_start: '00:00:33,567', time_end: '00:00:36,304' }]
+                             { sentence: 'your quarterlies look very good. ', time_start: '00:00:33,567',
+                               time_end: '00:00:36,304' }]
       expect(split_sentences(two_sentences)).to eq(two_sentences_check)
     end
   end
