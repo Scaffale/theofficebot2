@@ -21,7 +21,7 @@ class Sentence < ApplicationRecord
     '%H:%M:%S.%L'
   end
 
-  def name(delta_before = 0, delta_after = 0)
+  def new_name(delta_before = 0, delta_after = 0)
     [file_name, time_start(delta_before).strftime(time_to_string),
      Time.at(time_end(delta_after)).utc.strftime(time_to_string)].join('-')
   end
