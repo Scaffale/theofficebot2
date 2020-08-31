@@ -1,11 +1,7 @@
 # Sentence model manages to create gif
 class Sentence < ApplicationRecord
   def build_gif(_delta_before = 0, _delta_after = 0)
-    comand = "ffmpeg -ss #{time_start.strftime(time_to_string_ffmpeg)} -loglevel panic -n -i #{Rails.root}/data/#{file_name}.mp4 -to #{Time.at(time_end).utc.strftime(time_to_string_ffmpeg)} -c copy #{Rails.public_path}/gifs/#{new_name}"
-    # comand = "ffmpeg -ss #{time_start.strftime(time_to_string_ffmpeg)}
-    # -loglevel panic -n -i #{Rails.root}/data/#{file_name}.mp4
-    # -to #{Time.at(time_end).utc.strftime(time_to_string_ffmpeg)} -c copy
-    # -avoid_negative_ts 1 #{Rails.public_path}/gifs/#{new_name}.mp4"
+    comand = "ffmpeg -ss #{time_start.strftime(time_to_string_ffmpeg)} -loglevel panic -n -i #{Rails.root}/data/#{file_name}.mp4 -an -c:v libx264 -to #{Time.at(time_end).utc.strftime(time_to_string_ffmpeg)} #{Rails.public_path}/gifs/#{new_name}"
     system(comand)
     "/gifs/#{new_name}"
   end
