@@ -11,7 +11,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
     results_query.map(&:build_gif)
 
-    results = build_results(query)
+    results = build_results(results_query)
 
     Rails.logger.info results
     answer_inline_query results
