@@ -48,6 +48,7 @@ Layout/LineLength:
   AutoCorrect: true
   Exclude:
     - 'bin/bundle'
+    - app/models/sentence.rb
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -177,3 +178,8 @@ Metrics/BlockLength:
   Enabled: true
   Exclude:
     - spec/helpers/sentences_helper_spec.rb
+
+Naming/FileName:
+  Enabled: true
+  Exclude:
+    - config/initializers/telegram-bot.rb
