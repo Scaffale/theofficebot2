@@ -7,11 +7,12 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
     if query.blank?
       results_query = random_results if query.blank?
+      extra_params = { delta_before: 0, delta_after: 0 }
     else
       results_query, extra_params = search_sentence(query)
     end
 
-    results_query.map(&:build_gif)
+    results_query.map {|r| r.build_gif extra_params }
 
     results = build_results(results_query)
 

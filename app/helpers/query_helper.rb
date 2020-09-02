@@ -5,12 +5,12 @@ module QueryHelper
   def search_sentence(query)
     purged_query, extra_params = purge_query(query)
     Rails.logger.info "QUERY: #{purged_query}, params: #{extra_params}"
-    [Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(purged_query)}%").limit(10), extra_params]
+    [build_query(purged_query, 10), extra_params]
   end
 
   def search_sentence_count(query)
     purged_query, _extra_params = purge_query(query)
-    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(purged_query)}%").count
+    build_query(purged_query, Sentence.all.count).count
   end
 
   def extract_option(query, letter)
@@ -31,6 +31,18 @@ module QueryHelper
     query, before_time = extract_option(query, 'b')
     query, after_time = extract_option(query, 'a')
     query = query.sub('  ', ' ')
-    [query, { delta_before: before_time, delta_after: after_time }]
+    [split_text(query), { delta_before: before_time, delta_after: after_time }]
+  end
+
+  def split_text(query)
+    query.split.map { |q| sanitize_sql_like(q.downcase) }
+  end
+
+  def build_query(query, limit_number)
+    res = Sentence.all
+    query.each do |q|
+      res = res.where('LOWER(text) LIKE ?', "%#{q}%")
+    end
+    return res.limit(limit_number)
   end
 end
