@@ -16,7 +16,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results = build_results(results_query)
 
     Rails.logger.info results
-    answer_inline_query { results: results, next_offset: 10 }
+    answer_inline_query results, { next_offset: 10 }
   end
 
   private
