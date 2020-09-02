@@ -36,7 +36,5 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     Sentence.all.sample(10)
   end
 
-  def before_seconds(query)
-
-  end
+  def before_seconds(query); end
 end

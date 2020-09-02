@@ -177,7 +177,7 @@ Security/Open:
 Metrics/BlockLength:
   Enabled: true
   Exclude:
-    - spec/helpers/sentences_helper_spec.rb
+    - spec/**/*
 
 Naming/FileName:
   Enabled: true

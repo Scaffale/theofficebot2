@@ -4,17 +4,19 @@ module QueryHelper
 
   def search_sentence(query)
     purged_query, extra_params = purge_query(query)
-    [Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").limit(10), extra_params]
+    Rails.logger.info "QUERY: #{purged_query}, params: #{extra_params}"
+    [Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(purged_query)}%").limit(10), extra_params]
   end
 
   def search_sentence_count(query)
     purged_query, _extra_params = purge_query(query)
-    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").count
+    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(purged_query)}%").count
   end
 
   def extract_option(query, letter)
     regex = /-#{letter} ?-?\d+.?\d*/
     return [query, 0] unless query.match?(regex)
+
     numb_str = query.scan(regex).first
     query = query.sub(numb_str, '')
     number = numb_str.sub("-#{letter}", '').to_f
@@ -31,5 +33,4 @@ module QueryHelper
     query = query.sub('  ', ' ')
     [query, { delta_before: before_time, delta_after: after_time }]
   end
-
 end
