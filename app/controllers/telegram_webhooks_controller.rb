@@ -4,12 +4,13 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
   def inline_query(query, offset)
     Rails.logger.info "INIZIO IL METODO, query: #{query}, offset: #{offset}"
+    offset ||= 0
 
     if query.blank?
       results_query = random_results if query.blank?
       extra_params = { delta_before: 0, delta_after: 0 }
     else
-      results_query, extra_params = search_sentence(query)
+      results_query, extra_params = search_sentence(query, offset)
     end
 
     results_query.map {|r| r.build_gif extra_params }
@@ -17,7 +18,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results = build_results(results_query)
 
     Rails.logger.info results
-    answer_inline_query results, { next_offset: 10 }
+    answer_inline_query results, { next_offset: offset + 10 }
   end
 
   private

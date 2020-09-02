@@ -2,10 +2,10 @@
 module QueryHelper
   include ActiveRecord::Sanitization::ClassMethods
 
-  def search_sentence(query)
+  def search_sentence(query, offset = 0)
     purged_query, extra_params = purge_query(query)
     Rails.logger.info "QUERY: #{purged_query}, params: #{extra_params}"
-    [build_query(purged_query, 10), extra_params]
+    [build_query(purged_query, 10, offset), extra_params]
   end
 
   def search_sentence_count(query)
@@ -38,11 +38,11 @@ module QueryHelper
     query.split.map { |q| sanitize_sql_like(q.downcase) }
   end
 
-  def build_query(query, limit_number)
+  def build_query(query, limit_number, offset = 0)
     res = Sentence.all
     query.each do |q|
       res = res.where('LOWER(text) LIKE ?', "%#{q}%")
     end
-    return res.limit(limit_number)
+    return res.offset(offset).limit(limit_number)
   end
 end
