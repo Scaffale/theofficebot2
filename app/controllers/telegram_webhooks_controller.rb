@@ -4,7 +4,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
   def inline_query(query, offset)
     Rails.logger.info "INIZIO IL METODO, query: #{query}, offset: #{offset}"
-    offset ||= 0
+    offset = offset.to_i
 
     if query.blank?
       results_query = random_results if query.blank?
