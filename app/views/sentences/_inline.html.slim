@@ -7,4 +7,4 @@
     = sentence.end_time
   .video
     video controls=false autoplay=true muted=true loop=true
-      source src="#{sentence.build_gif}"
+      source src="#{sentence.build_gif(@extra_params)}"

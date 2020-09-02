@@ -1,20 +1,24 @@
 # Helper used to extract complex queries
 module QueryHelper
+  include ActiveRecord::Sanitization::ClassMethods
 
   def search_sentence(query)
     purged_query, extra_params = purge_query(query)
-    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").limit(10)
+    [Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").limit(10), extra_params]
   end
 
   def search_sentence_count(query)
+    purged_query, _extra_params = purge_query(query)
     Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").count
   end
 
   def extract_option(query, letter)
-    numb_str = query.scan(/-#{letter} ?\d+/).first
-    byebug
+    regex = /-#{letter} ?-?\d+.?\d*/
+    return [query, 0] unless query.match?(regex)
+    numb_str = query.scan(regex).first
     query = query.sub(numb_str, '')
-    [query, numb_str]
+    number = numb_str.sub("-#{letter}", '').to_f
+    [query, number]
   end
 
   def extract_number(query)
@@ -24,9 +28,8 @@ module QueryHelper
   def purge_query(query)
     query, before_time = extract_option(query, 'b')
     query, after_time = extract_option(query, 'a')
-    before_time = extract_number(before_time)
-    after_time = extract_number(after_time)
-    [query, {before: before_time, after: after_time}]
+    query = query.sub('  ', ' ')
+    [query, { delta_before: before_time, delta_after: after_time }]
   end
 
 end

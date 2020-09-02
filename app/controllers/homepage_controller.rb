@@ -4,7 +4,7 @@ class HomepageController < ApplicationController
 
   def index
     if params[:text]
-      @results = search_sentence(params[:text])
+      @results, @extra_params = search_sentence(params[:text])
       @results_count = search_sentence_count(params[:text])
     else
       @results = []

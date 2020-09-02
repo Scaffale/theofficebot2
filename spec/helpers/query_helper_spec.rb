@@ -32,4 +32,13 @@ RSpec.describe QueryHelper, type: :helper do
     # result_b = extract_number(query)
     # expect(result_b).to eq 234
   end
+
+  describe 'purge query' do
+    it 'can purge from after' do
+      query = 'complex query -a -20.5 and so'
+      result = purge_query(query)
+      expectation = ['complex query and so', { before: 0, after: -20.5 }]
+      expect(result).to eq expectation
+    end
+  end
 end
