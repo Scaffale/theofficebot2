@@ -1,9 +1,11 @@
 # Controller to manage homepage actions
 class HomepageController < ApplicationController
+  include QueryHelper
+
   def index
     if params[:text]
-      @results = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").limit(10)
-      @results_count = Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{params[:text]}%").count
+      @results = search_sentence(params[:text])
+      @results_count = search_sentence_count(params[:text])
     else
       @results = []
       @results_count = 0

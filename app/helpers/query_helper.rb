@@ -3,7 +3,11 @@ module QueryHelper
 
   def search_sentence(query)
     purged_query, extra_params = purge_query(query)
-    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{query}%").limit(10)
+    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").limit(10)
+  end
+
+  def search_sentence_count(query)
+    Sentence.where('LOWER(text) LIKE LOWER(?)', "%#{sanitize_sql_like(query)}%").count
   end
 
   def extract_option(query, letter)
