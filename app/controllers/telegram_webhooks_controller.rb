@@ -18,7 +18,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results = build_results(results_query)
 
     Rails.logger.info results
-    answer_inline_query results, { next_offset: offset + 10 }
+    answer_inline_query results, { next_offset: offset + 3 }
   end
 
   private
@@ -35,7 +35,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   end
 
   def random_results
-    Sentence.all.sample(10)
+    Sentence.all.sample(3)
   end
 
   def before_seconds(query); end

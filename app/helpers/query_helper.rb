@@ -5,7 +5,7 @@ module QueryHelper
   def search_sentence(query, offset = 0)
     purged_query, extra_params = purge_query(query)
     Rails.logger.info "QUERY: #{purged_query}, params: #{extra_params}"
-    [build_query(purged_query, 10, offset), extra_params]
+    [build_query(purged_query, 3, offset), extra_params]
   end
 
   def search_sentence_count(query)
