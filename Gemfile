@@ -1,32 +1,32 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '3.0.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0', '>= 6.0.3.2'
+gem 'rails'
 
 gem 'mysql2'
 # Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
+gem 'sass-rails'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+gem 'webpacker'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
+gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+# gem 'redis'
 # Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# gem 'bcrypt'
 
-gem 'telegram-bot', '~> 0.14.4'
+gem 'telegram-bot'
 
 # Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+# gem 'image_processing'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap'
 
 # gem 'autoprefixer-rails'
 gem 'dotenv-rails'
@@ -40,20 +40,20 @@ group :development, :test do
   gem 'pry'
   gem 'rubocop'
   gem 'rubocop-rails'
-  # gem 'unicorn'
-  # gem 'unicorn-rails'
+  gem 'unicorn'
+  gem 'unicorn-rails'
   gem 'database_cleaner'
   gem 'factory_bot'
-  gem 'rspec', '~> 3.9'
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec'
+  gem 'rspec-rails'
 end
 
 group :development do
   gem 'better_errors'
 
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.2'
-  gem 'web-console', '>= 3.3.0'
+  gem 'listen'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'spring-watcher-listen', '~> 2.0.0'
@@ -61,7 +61,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
