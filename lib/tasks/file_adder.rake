@@ -14,13 +14,24 @@ namespace :file_adder do
     }
   end
 
-  desc "Extract subtitles (da testare)"
-  task :subtitles do
-    all_videos_each {|file_name|
-      p "Analizzo: #{file_name}"
-      comand = "ffmpeg -loglevel panic -n -i #{Rails.root.join('data', file_name)} -map 0:s:0 #{Rails.root.join('data', file_name_without_extension(file_name))}.srt"
-      system(comand)
-      p comand
-    }
+  namespace :subtitles do
+    desc "Extract subtitles (da testare)"
+    task :out do
+      all_videos_each {|file_name|
+        p "Analizzo: #{file_name}"
+        comand = "ffmpeg -loglevel panic -n -i #{Rails.root.join('data', file_name)} -map 0:s:0 #{Rails.root.join('data', file_name_without_extension(file_name))}.srt"
+        system(comand)
+      }
+    end
+
+    desc "Insert subtitles"
+    task :in do
+      all_subtitles_each do |sub_file|
+        p "Inserisco: #{file_name}"
+        file_name = "#{Rails.root.join('data', file_name_without_extension(file_name))}"
+        comand = "ffmpeg -loglevel panic -n -i #{file_name}.webm -vf subtitles=#{file_name}.srt #{file_name}.webm"
+        system(comand)
+      end
+    end
   end
 end

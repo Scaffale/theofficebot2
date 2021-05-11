@@ -24,6 +24,14 @@ module FfmpegHelper
     result
   end
 
+  def all_subtitles_each(&block)
+    Dir.glob("#{Rails.root}/data/*.srt").sort.each do |file|
+      file_name = file.split('/').last
+      yield(file_name)
+    end
+    p "👍"
+  end
+
   def file_name_without_extension(file_name)
     file_name.split('.')[0..-2].join('.')
   end
