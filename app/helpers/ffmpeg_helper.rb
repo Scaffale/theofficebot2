@@ -32,7 +32,17 @@ module FfmpegHelper
     p "👍"
   end
 
+  def all_subtitles
+    Dir.glob("#{Rails.root}/data/*.srt").sort.map(&method(:file_name_no_dir))
+  end
+
   def file_name_without_extension(file_name)
     file_name.split('.')[0..-2].join('.')
+  end
+
+  private
+
+  def file_name_no_dir(file)
+    file.split('/').last
   end
 end
