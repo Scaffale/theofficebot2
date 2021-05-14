@@ -28,7 +28,7 @@ module SentencesHelper
     time_start = nil
     time_end = nil
     opened_file.each do |line|
-      next if new_line?(line)
+      next if new_line?(line) || line.blank?
 
       if time?(line)
         time_start, time_end = extract_time(line)

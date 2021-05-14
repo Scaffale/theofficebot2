@@ -5,16 +5,15 @@ namespace :file_adder do
 
   desc "Compress and codec files to .ogg (from data folder) (da testare, forse aggiungere codifica dopo?)"
   task :compress do
-    Parallel.each(all_videos) {|file_name|
+    Parallel.each(all_videos, in_processes: 4) {|file_name|
       p "Converto: #{file_name}"
       file_name_clean = file_name_without_extension(file_name)
-      # comand = "ffmpeg -n -i #{Rails.root.join('data', file_name)} -codec:v libx264 -preset slow -crf 18 -an -vf scale=-1:480 #{Rails.root.join('data', file_name_without_extension(file_name))}2.mp4"
-      # comand = "ffmpeg -n -loglevel warning -i #{Rails.root.join('data', file_name)} -an -crf 18 -vf \"subtitles=#{Rails.root.join('data', file_name_clean)}.srt, scale=320:-1\" -codec:v libx264 -preset slow #{Rails.root.join('data', file_name_clean)}.mp4"
-      comand = "ffmpeg -n -loglevel warning -i #{Rails.root.join('data', file_name)} -an -crf 18 -vf scale=320:-1 -codec:v libx264 -preset veryfast #{Rails.root.join('data', file_name_clean)}_2.mp4"
+      # comando per comprimerla bene in webm (stralento)
+      # comand = "ffmpeg -n -loglevel warning -i #{Rails.root.join('data', file_name)} -an -crf 32 -vf \"subtitles=#{Rails.root.join('data', file_name_clean)}.srt:force_style='Fontsize=32', scale=860:-1, fps=24\" #{Rails.root.join('data', file_name_clean)}.webm"
+      # comando per comprimerla bene in mp4 e vedere se i sottotitoli sono giusti (veloce)
+      speed = 'veryslow'
+      comand = "ffmpeg -n -loglevel info -i #{Rails.root.join('data', file_name)} -codec:v libx264 -preset #{speed} -an -crf 32 -vf \"subtitles=#{Rails.root.join('data', file_name_clean)}.srt:force_style='Fontsize=28', scale=trunc(oh*a/2)*2:480, fps=24\" #{Rails.root.join('data', file_name_clean)}_#{speed}.mp4"
       system(comand)
-      comand = "ffmpeg -n -loglevel warning -i #{Rails.root.join('data', file_name_clean)}_2.mp4 -an -crf 18 -vf \"subtitles=#{Rails.root.join('data', file_name_clean)}.srt\" -codec:v libx264 -preset slow #{Rails.root.join('data', file_name_clean)}.mp4"
-      system(comand)
-      system("rm #{Rails.root.join('data', file_name_clean)}_2.mp4")
     }
   end
 
