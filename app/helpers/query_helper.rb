@@ -35,7 +35,7 @@ module QueryHelper
   end
 
   def split_text(query)
-    query.split.map { |q| sanitize_sql_like(q.downcase) }
+    query.split.map { |q| sanitize_sql_like(q.downcase) }.join(' ')
   end
 
   def build_query(query, limit_number, offset = 0)

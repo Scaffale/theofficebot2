@@ -9,7 +9,7 @@ module SentencesHelper
   end
 
   def number?(line)
-    !line.match(/^\d{1,4}\n$/).nil?
+    !line.strip.match(/^\d{1,4}$/).nil?
   end
 
   def extract_time(line)
@@ -24,7 +24,7 @@ module SentencesHelper
 
   def split_sentences(opened_file)
     sentences = []
-    sentence = ''
+    sentence = []
     time_start = nil
     time_end = nil
     opened_file.each do |line|
@@ -36,17 +36,17 @@ module SentencesHelper
       end
 
       if number?(line)
-        next if sentence == ''
+        next if sentence.blank?
 
-        sentences << { sentence: sentence, time_start: time_start, time_end: time_end }
-        sentence = ''
+        sentences << { sentence: sentence.join(' '), time_start: time_start, time_end: time_end }
+        sentence = []
         next
       end
 
-      sentence += "#{line.strip} "
+      sentence += [line.strip]
     end
 
-    sentences << { sentence: sentence, time_start: time_start, time_end: time_end }
+    sentences << { sentence: sentence.join(' '), time_start: time_start, time_end: time_end }
 
     sentences
   end

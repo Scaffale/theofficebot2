@@ -44,7 +44,7 @@ RSpec.describe QueryHelper, type: :helper do
     it 'can purge from after medium' do
       query = 'think so -b 1 -a 2'
       result = purge_query(query)
-      expectation = ['think so ', { delta_before: 1.0, delta_after: 2.0 }]
+      expectation = ['think so', { delta_before: 1.0, delta_after: 2.0 }]
       expect(result).to eq expectation
     end
   end
