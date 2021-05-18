@@ -1,0 +1,2 @@
+class QueryHistory < ApplicationRecord
+end

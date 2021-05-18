@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_092543) do
+ActiveRecord::Schema.define(version: 2021_05_18_102109) do
+
+  create_table "query_histories", charset: "utf8", force: :cascade do |t|
+    t.string "text"
+    t.integer "hits"
+    t.float "time_after"
+    t.float "time_before"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "sentences", charset: "utf8", force: :cascade do |t|
     t.string "file_name"

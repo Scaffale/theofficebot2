@@ -4,6 +4,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
   def inline_query(query, offset)
     Rails.logger.info "INIZIO IL METODO, query: #{query}, offset: #{offset}"
+
     offset = offset.to_i
 
     if query.blank?
@@ -16,6 +17,8 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results_query.map {|r| r.build_gif extra_params }
 
     results = build_results(results_query, extra_params)
+
+    find_history_query(query)
 
     Rails.logger.info results
     answer_inline_query results, { next_offset: offset + 3 }
@@ -39,4 +42,15 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   end
 
   def before_seconds(query); end
+
+  def find_history_query(query)
+    purged_query = purge_query(query)
+    search_params = { text: purged_query[0].join(' '), time_after: purge_query[1][:delta_after], time_before: purge_query[1][:delat_before] }
+    hq = HistoryQuery.find_by(search_params)
+    if hq.nil?
+      hq = HistoryQuery.create(search_params.join(hits: 1))
+    else
+      HistoryQuery.increment_counter(:hits, hq.id)
+    end
+  end
 end
