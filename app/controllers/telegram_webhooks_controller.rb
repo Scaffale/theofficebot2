@@ -27,7 +27,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results_query.map do |result|
       {
         type: 'mpeg4_gif',
-        id: result.new_name(extra_params),
+        id: result.new_name(extra_params).hash.to_s,
         mpeg4_url: [ENV['SERVER_URL'], 'gifs', result.new_name(extra_params)].join('/'),
         thumb_url: [ENV['SERVER_URL'], 'placeholder.jpg'].join('/')
       }
