@@ -6,7 +6,7 @@ Dir.glob("#{Rails.root}/data/*.srt").sort.each do |file|
   file_name = file.split('/').last
   file_name = file_name.split('.srt')[0]
   p "Analizzo: #{file_name}"
-  opened_file = open(file, "r:ISO-8859-1:UTF-8").readlines
+  opened_file = open(file, 'r:ISO-8859-1:UTF-8').readlines
   split_sentences(opened_file).each do |sentence_analized|
     Sentence.create(file_name: file_name,
                     end_time: sentence_analized[:time_end],

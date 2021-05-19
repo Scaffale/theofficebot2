@@ -2,7 +2,7 @@
 module FfmpegHelper
   VIDEO_FORMATS = %w[mp4 mkv avi]
 
-  def all_videos_each(&block)
+  def all_videos_each
     VIDEO_FORMATS.each do |video_format|
       p "Vedo i #{video_format}"
       Dir.glob("#{Rails.root}/data/*.#{video_format}").sort.each do |file|
@@ -10,7 +10,7 @@ module FfmpegHelper
         yield(file_name)
       end
     end
-    p "👍"
+    p '👍'
   end
 
   def all_videos
@@ -24,12 +24,12 @@ module FfmpegHelper
     result
   end
 
-  def all_subtitles_each(&block)
+  def all_subtitles_each
     Dir.glob("#{Rails.root}/data/*.srt").sort.each do |file|
       file_name = file.split('/').last
       yield(file_name)
     end
-    p "👍"
+    p '👍'
   end
 
   def all_subtitles

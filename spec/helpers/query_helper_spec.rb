@@ -37,14 +37,14 @@ RSpec.describe QueryHelper, type: :helper do
     it 'can purge from after' do
       query = 'complex query -a -20.5 and so'
       result = purge_query(query)
-      expectation = [['and', 'complex', 'query', 'so'].sort, { delta_before: 0, delta_after: -20.5 }]
+      expectation = [%w[and complex query so].sort, { delta_before: 0, delta_after: -20.5 }]
       expect(result).to eq expectation
     end
 
     it 'can purge from after medium' do
       query = 'think so -b 1 -a 2'
       result = purge_query(query)
-      expectation = [['so', 'think'], { delta_before: 1.0, delta_after: 2.0 }]
+      expectation = [%w[so think], { delta_before: 1.0, delta_after: 2.0 }]
       expect(result).to eq expectation
     end
   end

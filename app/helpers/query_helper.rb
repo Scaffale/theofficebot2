@@ -43,6 +43,6 @@ module QueryHelper
     query.each do |q|
       res = res.where('LOWER(text) LIKE ?', "%#{q}%")
     end
-    return res.offset(offset).limit(limit_number)
+    res.offset(offset).limit(limit_number)
   end
 end
