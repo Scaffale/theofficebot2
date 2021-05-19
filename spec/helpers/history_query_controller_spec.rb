@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe HistoryQueryHelper, type: :helper do
   context 'QueryHistory' do
     let(:query) { 'esempio di ricerca -a 2' }
-    subject { helper.find_history_query(query) }
+    subject { helper.update_history_query(query) }
     context 'Creation' do
       context 'when existing' do
         before do
