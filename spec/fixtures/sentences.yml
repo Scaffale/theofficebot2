@@ -1,0 +1,24 @@
+frase_1:
+  start_time: '00:05:14,364'
+  end_time: '00:05:16,632'
+  text: "A questo punto speravo che qualcuno facesse un discorso."
+
+frase_2:
+  start_time: '00:05:16,798'
+  end_time: '00:05:20,208'
+  text: "- Discorso! Discorso, discorso! - Ok, va bene, diro' io qualcosa."
+
+frase_3:
+  start_time: '00:05:20,426'
+  end_time: '00:05:23,165'
+  text: "- Ma che strano. - Sono stati mesi difficili per tutti."
+
+frase_4:
+  start_time: '00:05:23,175'
+  end_time: '00:05:24,964'
+  text: "Penso che stiamo tutti scoprendo"
+
+frase_5:
+  start_time: '00:05:24,974'
+  end_time: '00:05:27,363'
+  text: "chi siamo veramente e cosa vogliamo davvero dalla vita."
