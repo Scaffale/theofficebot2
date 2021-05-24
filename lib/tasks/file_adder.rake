@@ -21,12 +21,12 @@ namespace :file_adder do
 
   namespace :subtitles do
     desc 'Extract subtitles, select channel (0, 1, 2...) depending on file'
-    task :out, [:channel] do |t, args|
+    task :out, [:channel] do |_t, args|
       all_videos_each do |file_name|
         p "Analizzo: #{file_name}"
         comand = "ffmpeg -loglevel panic -n -i #{Rails.root.join('data',
                                                                  file_name)} -map 0:s:#{args[:channel]} #{Rails.root.join('data',
-                                                                                                          file_name_without_extension(file_name))}.srt"
+                                                                                                                          file_name_without_extension(file_name))}.srt"
         system(comand)
       end
     end

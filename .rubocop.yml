@@ -45,10 +45,11 @@ Style/SpecialGlobalVars:
 
 Layout/LineLength:
   Max: 120
-  AutoCorrect: true
   Exclude:
     - 'bin/bundle'
-    - app/models/sentence.rb
+    - 'app/models/sentence.rb'
+    - 'spec/**/*'
+    - 'lib/tasks/file_adder.rake'
 
 Style/FrozenStringLiteralComment:
   Enabled: false

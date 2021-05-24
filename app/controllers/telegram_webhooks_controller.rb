@@ -2,6 +2,7 @@
 class TelegramWebhooksController < Telegram::Bot::UpdatesController
   include QueryHelper
   include HistoryQueryHelper
+  include SentencesHelper
 
   def inline_query(query, offset)
     Rails.logger.info "INIZIO IL METODO, query: #{query}, offset: #{offset}"
@@ -26,13 +27,15 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     answer_inline_query results, { next_offset: offset + 3 }
   end
 
+  def chosen_inline_result(result_id, query); end
+
   private
 
   def build_results(results_query, extra_params)
     results_query.map do |result|
       {
         type: 'mpeg4_gif',
-        id: result.new_name(extra_params).hash.to_s,
+        id: uniq_id(result.new_name(extra_params)),
         mpeg4_url: [ENV['SERVER_URL'], 'gifs', result.new_name(extra_params)].join('/'),
         thumb_url: [ENV['SERVER_URL'], 'placeholder.jpg'].join('/')
       }

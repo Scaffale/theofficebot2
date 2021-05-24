@@ -50,4 +50,12 @@ module SentencesHelper
 
     sentences
   end
+
+  def uniq_id(long_id)
+    if long_id.size < 36
+      long_id
+    else
+      long_id[-36..-6]
+    end
+  end
 end

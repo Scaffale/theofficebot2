@@ -155,4 +155,24 @@ il pensionamento di suo marito</i>
       end
     end
   end
+
+  context 'uniq_id' do
+    subject { uniq_id(name_to_change) }
+
+    context 'when long name' do
+      let(:name_to_change) { 'The.Lord.of.the.Rings.The.Fellowship.of.the.Ring_it-005606668-000005291-.mp4' }
+
+      it 'should cut correctly' do
+        expect(subject).to eq 'the.Ring_it-005606668-000005291'
+      end
+    end
+
+    context 'when short name' do
+      let(:name_to_change) { 's01e01-005606668-000005291-.mp4' }
+
+      it 'should cut correctly' do
+        expect(subject).to eq 's01e01-005606668-000005291-.mp4'
+      end
+    end
+  end
 end
