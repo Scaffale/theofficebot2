@@ -20,25 +20,14 @@ namespace :file_adder do
   end
 
   namespace :subtitles do
-    desc 'Extract subtitles (da testare)'
-    task :out do
+    desc 'Extract subtitles, select channel (0, 1, 2...) depending on file'
+    task :out, [:channel] do |t, args|
       all_videos_each do |file_name|
         p "Analizzo: #{file_name}"
         comand = "ffmpeg -loglevel panic -n -i #{Rails.root.join('data',
-                                                                 file_name)} -map 0:s:0 #{Rails.root.join('data',
+                                                                 file_name)} -map 0:s:#{args[:channel]} #{Rails.root.join('data',
                                                                                                           file_name_without_extension(file_name))}.srt"
         system(comand)
-      end
-    end
-
-    desc 'Insert subtitles (create file with _s at the end)'
-    task :in do
-      Parallel.each(all_subtitles) do |sub_file|
-        file_name = Rails.root.join('data', file_name_without_extension(sub_file)).to_s
-        p "Inserisco: #{file_name}"
-        comand = "ffmpeg -loglevel warning -n -i #{file_name}.webm -vf subtitles=#{file_name}.srt -an -crf 26 #{file_name}_s.webm"
-        system(comand)
-        p comand
       end
     end
   end
