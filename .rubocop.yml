@@ -1,3 +1,6 @@
+AllCops:
+  NewCops: enable
+
 # Configuration parameters: IgnoredMethods.
 Metrics/CyclomaticComplexity:
   Max: 9
@@ -26,6 +29,7 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
+    - 'db/**/*'
     - 'test/**/*'
     - 'app/helpers/application_helper.rb'
     - 'app/mailers/application_mailer.rb'
@@ -169,9 +173,10 @@ Style/MixinUsage:
   Enabled: true
   Exclude:
     - db/seeds.rb
+    - 'lib/tasks/file_adder.rake'
 
 Security/Open:
-  Enabled: true
+  Enabled: false
   Exclude:
     - db/seeds.rb
 

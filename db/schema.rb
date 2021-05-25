@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_518_102_109) do
+ActiveRecord::Schema.define(version: 20_210_524_151_616) do
+  create_table 'choosen_results', charset: 'utf8', force: :cascade do |t|
+    t.string 'uniq_id'
+    t.bigint 'query_history_id'
+    t.integer 'hits'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
   create_table 'query_histories', charset: 'utf8', force: :cascade do |t|
     t.string 'text'
     t.integer 'hits'

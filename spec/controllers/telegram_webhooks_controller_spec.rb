@@ -27,4 +27,32 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       end
     end
   end
+
+  describe '#chosen_inline_result' do
+    subject { controller.chosen_inline_result(result_uniq_id, query) }
+    let(:query) { 'che' }
+    let(:result_uniq_id) { '123456789' }
+
+    before do
+      create(:query_history, text: query, time_before: 0, time_after: 0)
+    end
+
+    context 'choosen_result' do
+      context 'choosen_result not present' do
+        it 'should create choosen_result' do
+          expect { subject }.to change { ChoosenResult.count }.by 1
+        end
+      end
+
+      context 'choosen_result present' do
+        before do
+          qh = create(:query_history, text: query)
+          create(:choosen_result, uniq_id: result_uniq_id, query_history: qh, hits: 1)
+        end
+        it 'should increment hits on choosed result' do
+          expect { subject }.to change { ChoosenResult.all.last.hits }.by 1
+        end
+      end
+    end
+  end
 end

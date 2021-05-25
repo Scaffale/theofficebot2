@@ -12,7 +12,7 @@ namespace :gifs do
       comand = "ffmpeg -loglevel panic -y -i optimizing.mp4 -an -c:v libx264 -preset veryslow #{gif}"
       system(comand)
       system('rm optimizing.mp4')
-      optimized_gifs.write(gif + "\n")
+      optimized_gifs.write("#{gif}\n")
     end
     optimized_gifs.close
     p 'Aggiornato, ottimizzato e chiuso!'

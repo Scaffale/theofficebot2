@@ -1,0 +1,5 @@
+FactoryBot.define do
+  factory :choosen_result do
+    uniq_id { 'MyString' }
+  end
+end

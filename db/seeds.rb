@@ -1,6 +1,6 @@
 include SentencesHelper
 
-Dir.glob("#{Rails.root}/data/*.srt").sort.each do |file|
+Dir.glob("#{Rails.root}/data/*.srt").each do |file|
   file_name = file.split('/').last
   file_name = file_name.split('.srt')[0]
   p "Analizzo: #{file_name}"

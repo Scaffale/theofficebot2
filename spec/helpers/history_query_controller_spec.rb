@@ -7,7 +7,7 @@ RSpec.describe HistoryQueryHelper, type: :helper do
     context 'Creation' do
       context 'when existing' do
         before do
-          create(:query_history, text: 'di esempio ricerca', time_after: 2, time_before: nil)
+          create(:query_history, text: 'di esempio ricerca', time_after: 2, time_before: 0)
         end
 
         it 'should not create history' do
