@@ -15,6 +15,12 @@ module HistoryQueryHelper
     QueryHistory.where(search_params(query)).first
   end
 
+  def find_or_create_query_sanitized(query)
+    qh = QueryHistory.where(query_only_text(query)).first
+    return qh if qh
+    QueryHistory.create(query_only_text(query).merge({ hits: 1 }))
+  end
+
   def create_query(query)
     QueryHistory.create(search_params(query).merge({ hits: 1 }))
   end
@@ -24,5 +30,11 @@ module HistoryQueryHelper
     { text: purged_query[0].join(' '),
       time_after: purged_query[1][:delta_after],
       time_before: purged_query[1][:delta_before] }
+  end
+
+  def query_only_text(query)
+    { text: purge_query(query)[0].join(' '),
+      time_after: 0,
+      time_before: 0 }
   end
 end

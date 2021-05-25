@@ -21,7 +21,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   def chosen_inline_result(result_id, query)
     choosen_result = ChoosenResult.find_by(uniq_id: result_id)
     if choosen_result.nil?
-      ChoosenResult.create!(uniq_id: result_id, query_history: find_query(query), hits: 1)
+      ChoosenResult.create!(uniq_id: result_id, query_history: find_or_create_query_sanitized(query), hits: 1)
     else
       choosen_result.increment!(:hits)
     end
