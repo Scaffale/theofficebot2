@@ -163,7 +163,7 @@ il pensionamento di suo marito</i>
       let(:name_to_change) { 'The.Lord.of.the.Rings.The.Fellowship.of.the.Ring_it-005606668-000005291-.mp4' }
 
       it 'should cut correctly' do
-        expect(subject).to eq 'the.Ring_it-005606668-000005291'
+        expect(subject).to eq '.of.the.Ring_it-005606668-000005291'
       end
     end
 

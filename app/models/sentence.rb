@@ -16,7 +16,7 @@ class Sentence < ApplicationRecord
 
   def new_name(extra_params = { delta_before: 0, delta_after: 0 })
     [file_name, time_start(extra_params[:delta_before]).strftime(time_to_string),
-     Time.at(time_end(extra_params[:delta_after])).utc.strftime(time_to_string), '.mp4'].join('-')
+     Time.at(time_end(extra_params[:delta_after])).utc.strftime(time_to_string), '.mp4'].join
   end
 
   def time_start(delta_before = 0)

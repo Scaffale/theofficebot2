@@ -12,7 +12,8 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     else
       results_query, extra_params = search_sentence(query, offset)
     end
-    Parallel.map(results_query, in_threads: 2) { |r| r.build_gif extra_params }
+    # Parallel.map(results_query, in_threads: 2) { |r| r.build_gif extra_params }
+    results_query.map { |r| r.build_gif extra_params }
     results = build_results(results_query, extra_params)
     update_history_query(query)
     answer_inline_query results, { next_offset: offset + 3 }
