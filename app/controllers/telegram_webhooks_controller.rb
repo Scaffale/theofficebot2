@@ -42,7 +42,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   end
 
   def random_results
-    Sentence.all.sample(3)
+    ChoosenResult.all.sample(3)
   end
 
   def before_seconds(query); end

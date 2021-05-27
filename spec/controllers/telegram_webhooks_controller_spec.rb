@@ -77,4 +77,19 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       end
     end
   end
+
+  describe '#random_results' do
+    subject { controller.random_results }
+
+    context 'when choosen results > 3' do
+      before do
+        create_list(:choosen_result, 4)
+      end
+
+      it 'should retrun 3 random results' do
+        srand 0
+        expect(subject).to eq([ChoosenResult[0], ChoosenResult[1], ChoosenResult[2]])
+      end
+    end
+  end
 end
