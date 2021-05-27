@@ -25,6 +25,43 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
                                                                    type: 'mpeg4_gif' }], { next_offset: 3 })
         subject
       end
+
+      context 'query empty' do
+        let(:query) { '' }
+
+        context 'when choosen results > 3' do
+          before do
+            4.times.each do |n|
+              create(:choosen_result, uniq_id: "MyString#{n}")
+            end
+          end
+
+          it 'should retrun 3 random results' do
+            srand 0
+            allow(controller).to receive(:answer_inline_query).with([{ id: 'MyString0',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString0',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString2',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString2',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString1',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString1',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' }], { next_offset: 3 })
+            subject
+          end
+        end
+
+        context 'when choosen results 0' do
+          it 'should retrun 3 random results' do
+            srand 0
+            allow(controller).to receive(:answer_inline_query).with([], { next_offset: 3 })
+            subject
+          end
+        end
+      end
     end
   end
 
@@ -74,21 +111,6 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
             expect { subject }.to change { ChoosenResult.all.last.hits }.by 1
           end
         end
-      end
-    end
-  end
-
-  describe '#random_results' do
-    subject { controller.random_results }
-
-    context 'when choosen results > 3' do
-      before do
-        create_list(:choosen_result, 4)
-      end
-
-      it 'should retrun 3 random results' do
-        srand 0
-        expect(subject).to eq([ChoosenResult[0], ChoosenResult[1], ChoosenResult[2]])
       end
     end
   end

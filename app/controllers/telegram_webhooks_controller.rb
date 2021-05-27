@@ -6,16 +6,11 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
   def inline_query(query, offset)
     offset = offset.to_i
-    if query.blank?
-      results_query = random_results if query.blank?
-      extra_params = { delta_before: 0, delta_after: 0 }
-    else
-      results_query, extra_params = search_sentence(query, offset)
-    end
-    # Parallel.map(results_query, in_threads: 2) { |r| r.build_gif extra_params }
-    results_query.map { |r| r.build_gif extra_params }
-    results = build_results(results_query, extra_params)
-    update_history_query(query)
+    results = if query.blank?
+                build_results_from_choosen_results(random_results)
+              else
+                build_results_from_query(query, offset)
+              end
     answer_inline_query results, { next_offset: offset + 3 }
   end
 
@@ -39,6 +34,26 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
         thumb_url: [ENV['SERVER_URL'], 'placeholder.jpg'].join('/')
       }
     end
+  end
+
+  def build_results_from_choosen_results(choosen_results)
+    choosen_results.map do |result|
+      {
+        type: 'mpeg4_gif',
+        id: result.uniq_id,
+        mpeg4_url: [ENV['SERVER_URL'], 'gifs', result.uniq_id].join('/'),
+        thumb_url: [ENV['SERVER_URL'], 'placeholder.jpg'].join('/')
+      }
+    end
+  end
+
+  def build_results_from_query(query, offset)
+    results_query, extra_params = search_sentence(query, offset)
+    # Parallel.map(results_query, in_threads: 2) { |r| r.build_gif extra_params }
+    results_query.map { |r| r.build_gif extra_params }
+    results = build_results(results_query, extra_params)
+    update_history_query(query)
+    results
   end
 
   def random_results

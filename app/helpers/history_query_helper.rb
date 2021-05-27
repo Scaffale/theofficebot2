@@ -18,6 +18,7 @@ module HistoryQueryHelper
   def find_or_create_query_sanitized(query)
     qh = QueryHistory.where(query_only_text(query)).first
     return qh if qh
+
     QueryHistory.create(query_only_text(query).merge({ hits: 1 }))
   end
 
