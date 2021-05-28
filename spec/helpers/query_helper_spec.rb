@@ -34,23 +34,22 @@ RSpec.describe QueryHelper, type: :helper do
     end
   end
 
-  describe 'purge query' do
-    it 'can purge from after' do
-      query = 'complex query -a -20.5 and so'
-      result = purge_query(query)
-      expectation = [%w[and complex query so].sort, { delta_before: 0, delta_after: -20.5 }]
-      expect(result).to eq expectation
+  describe '#purge_query' do
+    subject { purge_query(query) }
+
+    context 'when values with .' do
+      let(:query) { 'complex query -a -20.5 and so' }
+      it { is_expected.to eq [%w[and complex query so], { delta_before: 0, delta_after: -20.5 }] }
     end
 
-    it 'can purge from after medium' do
-      query = 'think so -b 1 -a 2'
-      result = purge_query(query)
-      expectation = [%w[so think], { delta_before: 1.0, delta_after: 2.0 }]
-      expect(result).to eq expectation
+    context 'when double params' do
+      let(:query) { 'think so -b 1 -a 2' }
+      it { is_expected.to eq [%w[so think], { delta_before: 1.0, delta_after: 2.0 }] }
     end
 
-    # context 'special chararacters' do
-    #   context 'when spaces' do
-    # end
+    context 'special chararacters' do
+      let(:query) { "micheal's bàchelor \"trauma!? -b 1.2 -a 2.4" }
+      it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 2.4 }] }
+    end
   end
 end
