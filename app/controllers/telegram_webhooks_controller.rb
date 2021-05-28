@@ -4,14 +4,17 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   include HistoryQueryHelper
   include SentencesHelper
 
+  RESULTS_FOR_QUERY = 3
+  RESULTS_FOR_BLANK_QUERY = 10
+
   def inline_query(query, offset)
     offset = offset.to_i
-    results = if query.blank?
-                build_results_from_choosen_results(random_results)
-              else
-                build_results_from_query(query, offset)
-              end
-    answer_inline_query results, { next_offset: offset + 3 }
+    results, offset_increment = if query.blank?
+                                  [build_results_from_choosen_results(random_results), RESULTS_FOR_BLANK_QUERY]
+                                else
+                                  build_results_from_query(query, offset)
+                                end
+    answer_inline_query results, { next_offset: offset + offset_increment }
   end
 
   def chosen_inline_result(result_id, query)
@@ -53,11 +56,11 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     results_query.map { |r| r.build_gif extra_params }
     results = build_results(results_query, extra_params)
     update_history_query(query)
-    results
+    [results, RESULTS_FOR_QUERY]
   end
 
   def random_results
-    ChoosenResult.all.sample(3)
+    ChoosenResult.all.order(hits: :desc).limit(RESULTS_FOR_BLANK_QUERY)
   end
 
   def before_seconds(query); end

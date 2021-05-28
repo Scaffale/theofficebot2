@@ -29,35 +29,62 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       context 'query empty' do
         let(:query) { '' }
 
-        context 'when choosen results > 3' do
+        context 'when choosen results > 10' do
           before do
-            4.times.each do |n|
+            14.times.each do |n|
               create(:choosen_result, uniq_id: "MyString#{n}")
             end
           end
 
-          it 'should retrun 3 random results' do
+          it 'should retrun 10 random results' do
             srand 0
             allow(controller).to receive(:answer_inline_query).with([{ id: 'MyString0',
                                                                        mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString0',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString1',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString1',
                                                                        thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
                                                                        type: 'mpeg4_gif' },
                                                                      { id: 'MyString2',
                                                                        mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString2',
                                                                        thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
                                                                        type: 'mpeg4_gif' },
-                                                                     { id: 'MyString1',
-                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString1',
+                                                                     { id: 'MyString3',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString3',
                                                                        thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-                                                                       type: 'mpeg4_gif' }], { next_offset: 3 })
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString4',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString4',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString5',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString5',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString6',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString6',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString7',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString7',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString8',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString8',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' },
+                                                                     { id: 'MyString9',
+                                                                       mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString9',
+                                                                       thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                       type: 'mpeg4_gif' }], { next_offset: 10 })
             subject
           end
         end
 
         context 'when choosen results 0' do
-          it 'should retrun 3 random results' do
-            srand 0
-            allow(controller).to receive(:answer_inline_query).with([], { next_offset: 3 })
+          it 'should retrun 0 results' do
+            allow(controller).to receive(:answer_inline_query).with([], { next_offset: 10 })
             subject
           end
         end
