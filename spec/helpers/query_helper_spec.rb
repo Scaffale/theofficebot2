@@ -48,7 +48,7 @@ RSpec.describe QueryHelper, type: :helper do
     end
 
     context 'special chararacters' do
-      let(:query) { "micheal's bàchelor \"trauma!? -b 1.2 -a 2.4" }
+      let(:query) { "micheal's     bàchelor \"trauma!? -b 1.2 -a 2.4" }
       it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 2.4 }] }
     end
   end

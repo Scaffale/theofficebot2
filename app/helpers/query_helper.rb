@@ -31,6 +31,7 @@ module QueryHelper
     query, before_time = extract_option(query, 'b')
     query, after_time = extract_option(query, 'a')
     query = query.gsub(/\W/, ' ')
+    # query = query.gsub(/ +/, ' ')
     [split_text(query), { delta_before: before_time, delta_after: after_time }]
   end
 
