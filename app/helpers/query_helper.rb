@@ -9,7 +9,7 @@ module QueryHelper
   end
 
   def search_sentence_count(query)
-    purged_query, _extra_params = purge_query(query)
+    purged_query, = purge_query(query)
     build_query(purged_query, Sentence.all.count).count
   end
 

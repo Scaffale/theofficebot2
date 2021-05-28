@@ -1,36 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe QueryHelper, type: :helper do
-  it 'can extract option' do
-    query = 'complex query -a 1 asdf'
-    result = extract_number(query)
-    expect(result).to eq 1
-  end
+  describe '#extract_number' do
+    subject { extract_number(query) }
 
-  it 'can extract option' do
-    query = 'complex query -a asdf'
-    result = extract_number(query)
-    expect(result).to eq 0
-  end
+    context 'when correct query' do
+      let(:query) { 'complex query -a 1 asdf' }
+      it { is_expected.to eq 1 }
 
-  it 'can extract option' do
-    query = 'complex query -a 10 asdf -a 4'
-    result = extract_number(query)
-    expect(result).to eq 10
-  end
+      context 'when multiple params' do
+        let(:query) { 'complex query -a 10 asdf -a 4 -b 234, asdf' }
+        it { is_expected.to eq 10 }
+      end
+    end
 
-  it 'can extract option' do
-    query = 'complex query -a asdf -a'
-    result = extract_number(query)
-    expect(result).to eq 0
-  end
+    context 'when wrong query' do
+      context 'when no number' do
+        let(:query) { 'complex query -a asdf' }
+        it { is_expected.to eq 0 }
+      end
 
-  it 'can extract option' do
-    query = 'complex query -a 10 asdf -a 4 -b 234, asdf'
-    result = extract_number(query)
-    expect(result).to eq 10
-    # result_b = extract_number(query)
-    # expect(result_b).to eq 234
+      context 'when double result' do
+        context 'when 2 numbers' do
+          let(:query) { 'complex query -a 10 asdf -a 4' }
+          it { is_expected.to eq 10 }
+        end
+
+        context 'when no number' do
+          let(:query) { 'complex query -a asdf -a' }
+          it { is_expected.to eq 0 }
+        end
+      end
+    end
   end
 
   describe 'purge query' do
@@ -47,5 +48,9 @@ RSpec.describe QueryHelper, type: :helper do
       expectation = [%w[so think], { delta_before: 1.0, delta_after: 2.0 }]
       expect(result).to eq expectation
     end
+
+    # context 'special chararacters' do
+    #   context 'when spaces' do
+    # end
   end
 end
