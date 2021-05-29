@@ -123,22 +123,22 @@ il pensionamento di suo marito</i>
     end
     it 'read many sentence' do
       two_sentences_check = [
-        { sentence: "questo e michael bluth", time_start: '00:00:04,911', time_end: '00:00:06,608' },
-        { sentence: "michael bluth manager della company", time_start: '00:00:05,637',
+        { sentence: 'questo e michael bluth', time_start: '00:00:04,911', time_end: '00:00:06,608' },
+        { sentence: 'michael bluth manager della company', time_start: '00:00:05,637',
           time_end: '00:00:08,620' },
-        { sentence: "per dieci anni ha lavorato nell azienda di suo padre aspettandosi diventarne socio",
+        { sentence: 'per dieci anni ha lavorato nell azienda di suo padre aspettandosi diventarne socio',
           time_start: '00:00:06,900', time_end: '00:00:11,042' },
-        { sentence: "e in questo momento felice", time_start: '00:00:11,072', time_end: '00:00:13,526' },
-        { sentence: "questa e la madre di michael guarda cosa hanno fatto",
+        { sentence: 'e in questo momento felice', time_start: '00:00:11,072', time_end: '00:00:13,526' },
+        { sentence: 'questa e la madre di michael guarda cosa hanno fatto',
           time_start: '00:00:14,330', time_end: '00:00:16,844' },
-        { sentence: "lei non e felice", time_start: '00:00:16,874', time_end: '00:00:18,224' },
-        { sentence: "lucille bluth membro dell alta societa", time_start: '00:00:16,874',
+        { sentence: 'lei non e felice', time_start: '00:00:16,874', time_end: '00:00:18,224' },
+        { sentence: 'lucille bluth membro dell alta societa', time_start: '00:00:16,874',
           time_end: '00:00:18,224' },
         { sentence: 'guarda cosa mi hanno fatto gli omosessuali', time_start: '00:00:18,809',
           time_end: '00:00:21,509' },
         { sentence: 'non puoi prendere una spazzola e risistemarti i capelli', time_start: '00:00:21,789',
           time_end: '00:00:24,532' },
-        { sentence: "e infastidita perche la festa per il pensionamento di suo marito",
+        { sentence: 'e infastidita perche la festa per il pensionamento di suo marito',
           time_start: '00:00:24,562', time_end: '00:00:27,121' }
       ]
       expect(split_sentences(file_sample)).to eq(two_sentences_check)
@@ -182,21 +182,47 @@ il pensionamento di suo marito</i>
     context 'when nothing to purge' do
       let(:sentence) { 'Non puoi prendere una spazzola e risistemarti i capelli' }
 
-      it {is_expected.to eq  ["non", "puoi", "prendere", "una", "spazzola", "e", "risistemarti", "i", "capelli"] }
+      it { is_expected.to eq %w[non puoi prendere una spazzola e risistemarti i capelli] }
     end
     context 'when to purge' do
       context 'when many to purge' do
         let(:sentence) { "{pos(190,210)}<i>E' infastidita perche' la festa per il <b>pensionamento</b> di suo marito</i>" }
-        it {is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito]}
+        it { is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito] }
       end
 
       context 'when <i> and <b> to remove' do
         let(:sentence) { "<i>E' infastidita perche' la festa per il <b>pensionamento</b> di suo marito</i>" }
-        it {is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito]}
+        it { is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito] }
 
         context 'when only one' do
           let(:sentence) { "<i>E' infastidita perche' la festa per il pensionamento di suo marito</i>" }
-          it {is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito]}
+          it { is_expected.to eq %w[e infastidita perche la festa per il pensionamento di suo marito] }
+        end
+      end
+    end
+  end
+
+  describe '#update_words' do
+    subject { update_words(sentence) }
+    let(:sentence) { create(:sentence, text: 'la mia nuova frase') }
+
+    context 'word creation' do
+      it 'creates necessary words' do
+        expect { subject }.to change { Word.count }.by 4
+        expect(sentence.words.count).to eq 4
+        expect(Word.last.sentences.count).to eq 1
+      end
+
+      context 'when words already there' do
+        before do
+          create(:word, text: 'la')
+          create(:word, text: 'mia')
+        end
+
+        it 'creates 2 words and links 4' do
+          expect { subject }.to change { Word.count }.by 2
+          expect(sentence.words.count).to eq 4
+          expect(Word.last.sentences.count).to eq 1
         end
       end
     end

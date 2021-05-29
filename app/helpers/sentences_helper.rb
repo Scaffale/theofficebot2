@@ -38,7 +38,7 @@ module SentencesHelper
       if number?(line)
         next if sentence.blank?
 
-        sentences << { sentence: sentence.flatten.uniq.join(' '), time_start: time_start, time_end: time_end }
+        sentences << { sentence: join_sentences(sentence), time_start: time_start, time_end: time_end }
         sentence = []
         next
       end
@@ -46,7 +46,7 @@ module SentencesHelper
       sentence += purge_and_split(line)
     end
 
-    sentences << { sentence: sentence.flatten.uniq.join(' '), time_start: time_start, time_end: time_end }
+    sentences << { sentence: join_sentences(sentence), time_start: time_start, time_end: time_end }
 
     sentences
   end
@@ -60,12 +60,23 @@ module SentencesHelper
   end
 
   def purge_and_split(line)
-    line.gsub(/<\/?\w>/, '')
-      .gsub(/\{pos\(.+\)\}/, '')
-      .gsub(/\W/, ' ')
-      .downcase
-      .strip
-      .split
-      .uniq
+    line.gsub(%r{</?\w>}, '')
+        .gsub(/\{pos\(.+\)\}/, '')
+        .gsub(/\W/, ' ')
+        .downcase
+        .strip
+        .split
+        .uniq
+  end
+
+  def join_sentences(sentences)
+    sentences.flatten.uniq.join(' ')
+  end
+
+  def update_words(sentence)
+    sentence.text.split.each do |word|
+      w = Word.where(text: word).first_or_create
+      sentence.words << w
     end
+  end
 end
