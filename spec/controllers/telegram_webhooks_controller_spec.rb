@@ -141,4 +141,16 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       end
     end
   end
+
+  describe '#start!' do
+    subject { controller.start! }
+
+    it 'answer with 3 messages' do
+      allow(controller).to receive(:respond_with).with(:message, text: 'Eilà!')
+      allow(controller).to receive(:respond_with).with(:message, text:
+          "Funziono __inline__, quindi comincia a scrivere @plot_twist_bot e se vuoi cercare qualcosa scrivi pure.\n\n    Puoi usare le opzioni:\n\n    -b NUMERO, taglia il video N secondi indietro\n\n    -a NUMERO, taglia il video N secondi avanti\n\n    -f FILTRO, cerca solo in determinati file\n    ")
+      allow(controller).to receive(:respond_with).with(:message, text: "Lista dei filtri:\n\n    []\n    ")
+      subject
+    end
+  end
 end

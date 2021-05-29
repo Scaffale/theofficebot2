@@ -3,6 +3,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   include QueryHelper
   include HistoryQueryHelper
   include SentencesHelper
+  include BotExplanationHelper
 
   RESULTS_FOR_QUERY = 3
   RESULTS_FOR_BLANK_QUERY = 10
@@ -24,6 +25,15 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     else
       choosen_result.increment!(:hits)
     end
+  end
+
+  def start!(_word = nil, *_other_words)
+    response = from ? "Ciao #{from['username']}!" : 'Eilà!'
+    respond_with :message, text: response
+
+    respond_with :message, text: explanation
+
+    respond_with :message, text: list_of_filters
   end
 
   private
@@ -62,6 +72,4 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   def random_results
     ChoosenResult.all.order(hits: :desc).limit(RESULTS_FOR_BLANK_QUERY)
   end
-
-  def before_seconds(query); end
 end
