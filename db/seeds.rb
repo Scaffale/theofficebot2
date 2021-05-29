@@ -8,10 +8,13 @@ Dir.glob("#{Rails.root}/data/*.srt").each do |file|
 
   opened_file = open(file, 'r:ISO-8859-1:UTF-8').readlines
   split_sentences(opened_file).each do |sentence_analized|
-    Sentence.create(file_name: file_name,
+    sentence = Sentence.create(file_name: file_name,
                     file_filter: file_name.split('.').first,
                     end_time: sentence_analized[:time_end],
                     start_time: sentence_analized[:time_start],
                     text: sentence_analized[:sentence])
+    sentence_analized[:sentence].split.each { |word|
+      sentence.words << Word.first_or_create(text: word)
+    }
   end
 end

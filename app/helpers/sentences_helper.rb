@@ -38,15 +38,15 @@ module SentencesHelper
       if number?(line)
         next if sentence.blank?
 
-        sentences << { sentence: sentence.join(' '), time_start: time_start, time_end: time_end }
+        sentences << { sentence: sentence.flatten.uniq.join(' '), time_start: time_start, time_end: time_end }
         sentence = []
         next
       end
 
-      sentence += [line.strip]
+      sentence += purge_and_split(line)
     end
 
-    sentences << { sentence: sentence.join(' '), time_start: time_start, time_end: time_end }
+    sentences << { sentence: sentence.flatten.uniq.join(' '), time_start: time_start, time_end: time_end }
 
     sentences
   end
@@ -58,4 +58,14 @@ module SentencesHelper
       long_id[-40..-6]
     end
   end
+
+  def purge_and_split(line)
+    line.gsub(/<\/?\w>/, '')
+      .gsub(/\{pos\(.+\)\}/, '')
+      .gsub(/\W/, ' ')
+      .downcase
+      .strip
+      .split
+      .uniq
+    end
 end
