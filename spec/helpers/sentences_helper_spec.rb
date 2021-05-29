@@ -225,6 +225,18 @@ il pensionamento di suo marito</i>
           expect(Word.last.sentences.count).to eq 1
         end
       end
+
+      context 'when other objects' do
+        context 'when choosen_result' do
+          let(:sentence) { create(:query_history, text: 'la mia query')}
+
+          it 'creates necessary words' do
+            expect { subject }.to change { Word.count }.by 4
+            expect(sentence.words.count).to eq 4
+            expect(Word.last.sentences.count).to eq 1
+          end
+        end
+      end
     end
   end
 end

@@ -1,4 +1,4 @@
 class ChoosenResult < ApplicationRecord
-  has_and_belongs_to_many :words
   belongs_to :query_history
+  has_many :words, through: :query_history
 end
