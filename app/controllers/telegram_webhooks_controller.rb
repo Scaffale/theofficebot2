@@ -9,12 +9,9 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
 
   def inline_query(query, offset)
     offset = offset.to_i
-    results, offset_increment = if query.blank?
-                                  [build_results_from_choosen_results(random_results), RESULTS_FOR_BLANK_QUERY]
-                                else
-                                  build_results_from_query(query, offset)
-                                end
-    answer_inline_query results, { next_offset: offset + offset_increment }
+    # answer_inline_query results, { next_offset: offset + offset_increment }
+    results, next_offset = build_results_from_query(query, offset)
+    answer_inline_query results, { next_offset: next_offset }
   end
 
   def chosen_inline_result(result_id, query)
@@ -60,14 +57,14 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
   end
 
   def build_results_from_query(query, offset)
-    results_query, extra_params = search_sentence(query, offset)
-    # Parallel.map(results_query, in_threads: 2) { |r| r.build_gif extra_params }
-    results_query.map { |r| r.build_gif extra_params }
-    results = build_results(results_query, extra_params)
-    [results, RESULTS_FOR_QUERY]
-  end
-
-  def random_results
-    ChoosenResult.all.order(hits: :desc).limit(RESULTS_FOR_BLANK_QUERY)
+    if query.blank?
+      results = build_results(build_query_choosen_results(limit: RESULTS_FOR_BLANK_QUERY, offset: offset), {})
+      [results, (offset + RESULTS_FOR_BLANK_QUERY)]
+    else
+      results_query, extra_params = search_sentence(query, offset)
+      results_query.map { |r| r.build_gif extra_params }
+      results = build_results(results_query, extra_params)
+      [results, (offset + RESULTS_FOR_QUERY)]
+    end
   end
 end

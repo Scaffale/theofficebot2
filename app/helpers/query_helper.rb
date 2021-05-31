@@ -40,9 +40,9 @@ module QueryHelper
   end
 
   def sanitize(query)
-    query, _ = extract_option(query, 'b')
-    query, _ = extract_option(query, 'a')
-    query, _ = extract_filter(query, 'f')
+    query, = extract_option(query, 'b')
+    query, = extract_option(query, 'a')
+    query, = extract_filter(query, 'f')
     query.gsub(/\W/, ' ')
   end
 
@@ -62,11 +62,7 @@ module QueryHelper
     res.offset(offset).limit(limit_number)
   end
 
-  def build_query_choosen_results(query:, limit: 3, offset: 0)
-    res = ChoosenResult.all
-    query.each do |q|
-      res = res.where('LOWER(text) LIKE ?', "%#{q}%")
-    end
-    res.offset(offset).limit(limit)
+  def build_query_choosen_results(limit: 10, offset: 0)
+    ChoosenResult.offset(offset).limit(limit)
   end
 end
