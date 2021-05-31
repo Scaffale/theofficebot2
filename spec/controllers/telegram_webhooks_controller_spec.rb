@@ -26,27 +26,27 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
         subject
       end
 
-      # context 'choosen result present' do
-      #   before do
-      #     create(:choosen_result, text: query)
-      #   end
+      context 'choosen result present' do
+        before do
+          create(:choosen_result, text: query)
+        end
 
-      #   it 'should answer with 1 choosen and 2 new' do
-      #     allow(controller).to receive(:answer_inline_query).with([{ id: 'MyString',
-      #                                                                mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString',
-      #                                                                thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-      #                                                                type: 'mpeg4_gif' },
-      #                                                              { id: '000514364000002267.mp4',
-      #                                                                mpeg4_url: 'plot-twist.casadacorte.it/gifs/000514364000002267.mp4',
-      #                                                                thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-      #                                                                type: 'mpeg4_gif' },
-      #                                                              { id: '000520426000002738.mp4',
-      #                                                                mpeg4_url: 'plot-twist.casadacorte.it/gifs/000520426000002738.mp4',
-      #                                                                thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-      #                                                                type: 'mpeg4_gif' }], { next_offset: 3 })
-      #     subject
-      #   end
-      # end
+        it 'should answer with 1 choosen and 2 new' do
+          allow(controller).to receive(:answer_inline_query).with([{ id: 'MyString',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/MyString',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' },
+                                                                   { id: '000514364000002267.mp4',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/000514364000002267.mp4',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' },
+                                                                   { id: '000520426000002738.mp4',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/000520426000002738.mp4',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' }], { next_offset: 3 })
+          subject
+        end
+      end
 
       context 'query empty' do
         let(:query) { '' }
@@ -144,7 +144,7 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       allow(controller).to receive(:respond_with).with(:message, text: 'Eilà!')
       allow(controller).to receive(:respond_with).with(:message, text:
           "Funziono __inline__, quindi comincia a scrivere @plot_twist_bot e se vuoi cercare qualcosa scrivi pure.\n\n    Puoi usare le opzioni:\n\n    -b NUMERO, taglia il video N secondi indietro\n\n    -a NUMERO, taglia il video N secondi avanti\n\n    -f FILTRO, cerca solo in determinati file\n    ")
-      allow(controller).to receive(:respond_with).with(:message, text: "Lista dei filtri:\n\n    []\n    ")
+      allow(controller).to receive(:respond_with).with(:message, text: "Lista dei filtri:\n\n    \n    ")
       subject
     end
   end

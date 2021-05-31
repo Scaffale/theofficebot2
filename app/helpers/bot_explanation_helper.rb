@@ -25,7 +25,7 @@ module BotExplanationHelper
   def list_of_filters
     file_filters = Sentence.group(:file_filter).select(:file_filter).map(&:file_filter)
     "Lista dei filtri:\n
-    #{file_filters.map { |e| "#{e} -> #{KNOWN_FILTERS[e] || '🤷‍♂️'}\n" }}
+    #{file_filters.map { |e| "#{e} -> #{KNOWN_FILTERS[e.to_sym] || '🤷‍♂️'}\n" }.join}
     "
   end
 end
