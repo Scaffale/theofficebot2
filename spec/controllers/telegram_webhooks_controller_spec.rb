@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'telegram/bot/updates_controller/rspec_helpers'
 
 RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
-  fixtures :sentences
   describe '#inline_query' do
     subject { controller.inline_query(query, offset) }
 
@@ -10,23 +9,29 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       let(:offset) { 0 }
       let(:query) { 'che' }
 
-      it 'should answer with 3 results' do
-        allow(controller).to receive(:answer_inline_query).with([{ id: '000514364000002267.mp4',
-                                                                   mpeg4_url: 'plot-twist.casadacorte.it/gifs/000514364000002267.mp4',
-                                                                   thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-                                                                   type: 'mpeg4_gif' },
-                                                                 { id: '000520426000002738.mp4',
-                                                                   mpeg4_url: 'plot-twist.casadacorte.it/gifs/000520426000002738.mp4',
-                                                                   thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-                                                                   type: 'mpeg4_gif' },
-                                                                 { id: '000523175000001788.mp4',
-                                                                   mpeg4_url: 'plot-twist.casadacorte.it/gifs/000523175000001788.mp4',
-                                                                   thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
-                                                                   type: 'mpeg4_gif' }], { next_offset: 3 })
-        subject
+      context 'when no other choosen results' do
+        fixtures :sentences
+
+        it 'should answer with 3 results' do
+          allow(controller).to receive(:answer_inline_query).with([{ id: '000514364000002267.mp4',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/000514364000002267.mp4',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' },
+                                                                   { id: '000520426000002738.mp4',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/000520426000002738.mp4',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' },
+                                                                   { id: '000523175000001788.mp4',
+                                                                     mpeg4_url: 'plot-twist.casadacorte.it/gifs/000523175000001788.mp4',
+                                                                     thumb_url: 'plot-twist.casadacorte.it/placeholder.jpg',
+                                                                     type: 'mpeg4_gif' }], { next_offset: 3 })
+          subject
+        end
       end
 
       context 'choosen result present' do
+        fixtures :sentences
+
         before do
           create(:choosen_result, text: query)
         end
@@ -144,7 +149,7 @@ RSpec.describe TelegramWebhooksController, type: :telegram_bot_controller do
       allow(controller).to receive(:respond_with).with(:message, text: 'Eilà!')
       allow(controller).to receive(:respond_with).with(:message, text:
           "Funziono __inline__, quindi comincia a scrivere @plot_twist_bot e se vuoi cercare qualcosa scrivi pure.\n\n    Puoi usare le opzioni:\n\n    -b NUMERO, taglia il video N secondi indietro\n\n    -a NUMERO, taglia il video N secondi avanti\n\n    -f FILTRO, cerca solo in determinati file\n    ")
-      allow(controller).to receive(:respond_with).with(:message, text: "Lista dei filtri:\n\n    \n    ")
+      allow(controller).to receive(:respond_with).with(:message, text: "Lista dei filtri:\n\n     -> 🤷‍♂️\n\n    ")
       subject
     end
   end
