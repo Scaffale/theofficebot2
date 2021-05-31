@@ -61,17 +61,43 @@ RSpec.describe QueryHelper, type: :helper do
 
     context 'when double params' do
       let(:query) { 'think so -b 1 -a 2' }
-      it { is_expected.to eq [%w[so think], { delta_before: 1.0, delta_after: 2.0, file_filter: nil }] }
+      it { is_expected.to eq [%w[so think], { delta_before: 1.0, delta_after: 3.0, file_filter: nil }] }
     end
 
     context 'special chararacters' do
       let(:query) { "micheal's     bàchelor \"trauma!? -b 1.2 -a 2.4" }
-      it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 2.4, file_filter: nil }] }
+      it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 3.6, file_filter: nil }] }
     end
 
     context 'with also filter option' do
       let(:query) { "micheal's  -f ad   bàchelor \"trauma!? -b 1.2 -a 2.4" }
-      it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 2.4, file_filter: 'ad' }] }
+      it { is_expected.to eq [%w[b chelor micheal s trauma], { delta_before: 1.2, delta_after: 3.6, file_filter: 'ad' }] }
+    end
+
+    context 'before and after time calculation' do
+      let(:query) { "random search -b #{before} -a #{after}" }
+      let(:before) { 0 }
+      let(:after) { 0 }
+
+      context 'when no before' do
+        let(:after) { 5 }
+
+        it { is_expected.to eq [%w[random search], { delta_before: 0, delta_after: 5, file_filter: nil }] }
+      end
+
+      context 'when before' do
+        let(:before) { 5 }
+
+        context 'when no after' do
+          it { is_expected.to eq [%w[random search], { delta_before: 5, delta_after: 5, file_filter: nil }] }
+        end
+
+        context 'when after' do
+          let(:after) { 5 }
+
+          it { is_expected.to eq [%w[random search], { delta_before: 5, delta_after: 10, file_filter: nil }] }
+        end
+      end
     end
   end
 end
