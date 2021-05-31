@@ -201,42 +201,4 @@ il pensionamento di suo marito</i>
       end
     end
   end
-
-  describe '#update_words' do
-    subject { update_words(sentence) }
-    let(:sentence) { create(:sentence, text: 'la mia nuova frase') }
-
-    context 'word creation' do
-      it 'creates necessary words' do
-        expect { subject }.to change { Word.count }.by 4
-        expect(sentence.words.count).to eq 4
-        expect(Word.last.sentences.count).to eq 1
-      end
-
-      context 'when words already there' do
-        before do
-          create(:word, text: 'la')
-          create(:word, text: 'mia')
-        end
-
-        it 'creates 2 words and links 4' do
-          expect { subject }.to change { Word.count }.by 2
-          expect(sentence.words.count).to eq 4
-          expect(Word.last.sentences.count).to eq 1
-        end
-      end
-
-      context 'when other objects' do
-        context 'when choosen_result' do
-          let(:sentence) { create(:query_history, text: 'la mia query')}
-
-          it 'creates necessary words' do
-            expect { subject }.to change { Word.count }.by 3
-            expect(sentence.words.count).to eq 3
-            expect(Word.last.query_histories.count).to eq 1
-          end
-        end
-      end
-    end
-  end
 end

@@ -1,7 +1,5 @@
 # Helper used to extract complex queries
 module QueryHelper
-  include ActiveRecord::Sanitization::ClassMethods
-
   def search_sentence(query, offset = 0)
     purged_query, extra_params = purge_query(query)
     Rails.logger.info "QUERY: #{purged_query}, params: #{extra_params}"
@@ -41,8 +39,15 @@ module QueryHelper
     [split_text(query), { delta_before: before_time, delta_after: after_time, file_filter: file_filter }]
   end
 
+  def sanitize(query)
+    query, _ = extract_option(query, 'b')
+    query, _ = extract_option(query, 'a')
+    query, _ = extract_filter(query, 'f')
+    query.gsub(/\W/, ' ')
+  end
+
   def split_text(query)
-    query.split.sort.map { |q| sanitize_sql_like(q.downcase) }
+    query.downcase.split.sort.uniq
   end
 
   def build_query(query, limit_number, offset = 0, file_filter: nil)
@@ -55,5 +60,13 @@ module QueryHelper
       res = res.where('LOWER(text) LIKE ?', "%#{q}%")
     end
     res.offset(offset).limit(limit_number)
+  end
+
+  def build_query_choosen_results(query:, limit: 3, offset: 0)
+    res = ChoosenResult.all
+    query.each do |q|
+      res = res.where('LOWER(text) LIKE ?', "%#{q}%")
+    end
+    res.offset(offset).limit(limit)
   end
 end

@@ -72,11 +72,4 @@ module SentencesHelper
   def join_sentences(sentences)
     sentences.flatten.uniq.join(' ')
   end
-
-  def update_words(sentence)
-    sentence.text.split.each do |word|
-      w = Word.where(text: word).first_or_create
-      sentence.words << w
-    end
-  end
 end
