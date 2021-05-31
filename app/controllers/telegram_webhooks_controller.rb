@@ -45,24 +45,13 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     end
   end
 
-  def build_results_from_choosen_results(choosen_results)
-    choosen_results.map do |result|
-      {
-        type: 'mpeg4_gif',
-        id: result.uniq_id,
-        mpeg4_url: [ENV['SERVER_URL'], 'gifs', result.uniq_id].join('/'),
-        thumb_url: [ENV['SERVER_URL'], 'placeholder.jpg'].join('/')
-      }
-    end
-  end
-
   def build_results_from_query(query, offset)
     if query.blank?
       results = build_results(build_query_choosen_results(limit: RESULTS_FOR_BLANK_QUERY, offset: offset), {})
       [results, (offset + RESULTS_FOR_BLANK_QUERY)]
     else
       results_query, extra_params = search_sentence(query, offset)
-      results_query.map { |r| r.build_gif extra_params }
+      results_query.map { |r| r.build_gif(extra_params) if r.instance_of?(Sentence) }
       results = build_results(results_query, extra_params)
       [results, (offset + RESULTS_FOR_QUERY)]
     end

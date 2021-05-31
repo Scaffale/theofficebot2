@@ -50,19 +50,27 @@ module QueryHelper
     query.downcase.split.sort.uniq
   end
 
-  def build_query(query, limit_number, offset = 0, file_filter: nil)
+  def build_query(query, limit, offset = 0, file_filter: nil)
+    choosen = build_query_choosen_results(query: query, limit: limit, offset: offset)
+    limit -= choosen.count
+
     res = if file_filter.present?
             Sentence.where(file_filter: file_filter)
           else
             Sentence.all
           end
+    res = build_query_general(res: res, query: query, limit: limit, offset: offset)
+    (choosen + res)
+  end
+
+  def build_query_choosen_results(query: [], limit: 10, offset: 0)
+    build_query_general(res: ChoosenResult.all, query: query, limit: limit, offset: offset)
+  end
+
+  def build_query_general(res:, query: [], limit: 10, offset: 0)
     query.each do |q|
       res = res.where('LOWER(text) LIKE ?', "%#{q}%")
     end
-    res.offset(offset).limit(limit_number)
-  end
-
-  def build_query_choosen_results(limit: 10, offset: 0)
-    ChoosenResult.offset(offset).limit(limit)
+    res.offset(offset).limit(limit)
   end
 end
