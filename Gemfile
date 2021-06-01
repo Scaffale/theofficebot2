@@ -19,21 +19,18 @@ gem 'jbuilder'
 # gem 'redis'
 # Use Active Model has_secure_password
 # gem 'bcrypt'
-
 gem 'telegram-bot'
-
 # Use Active Storage variant
 # gem 'image_processing'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap'
-
 # gem 'autoprefixer-rails'
 gem 'dotenv-rails'
 # gem 'faker'
 gem 'slim'
 # gem 'uglifier'
 gem 'parallel'
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
